@@ -5,10 +5,13 @@ preamble = "G28\nG1 Z5.0"
 postamble = "G28"
 
 """G-code emitted before processing a SVG shape"""
-shape_preamble = "G4 P200"
+#shape_preamble = "G4 P200"
+shape_preamble = "G0 Z0"
 
 """G-code emitted after processing a SVG shape"""
-shape_postamble = "G4 P200"
+#shape_postamble = "G4 P200"
+shape_postamble = "G0 Z5"
+G1_speed = "F800"
 
 """Print bed width in mm"""
 bed_max_x = 200

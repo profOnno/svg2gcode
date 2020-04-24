@@ -11,13 +11,9 @@ def generate_gcode():
     
     tree = ET.parse(sys.stdin)
     root = tree.getroot()
-    
-    width = root.get('width')
-    height = root.get('height')
-    if width == None or height == None:
-        viewbox = root.get('viewBox')
-        if viewbox:
-            _, _, width, height = viewbox.split()                
+    viewbox = root.get('viewBox')
+    if viewbox:
+      _, _, width, height = viewbox.split()                
 
     if width == None or height == None:
         print "Unable to get width and height for the svg"
@@ -45,12 +41,39 @@ def generate_gcode():
             m = shape_obj.transformation_matrix()
 
             if d:
-                print shape_preamble 
                 p = point_generator(d, m, smoothness)
-                for x,y in p:
-                    if x > 0 and x < bed_max_x and y > 0 and y < bed_max_y:  
-                        print "G1 X%0.1f Y%0.1f" % (scale_x*x, scale_y*y) 
-                print shape_postamble
+                # first move to pos
+                #print "\n\n$$$$$$$$$$ start d path"
+                (t,x,y) = next(p)
+                print "G0 X%0.1f Y%0.1f" % (scale_x*x, scale_y*y) 
+                # then post preamble
+                print shape_preamble 
+                
+                needs_preamble=False
+
+                sm = "G1"
+                fm = "G0"
+                mt = sm
+
+                for t,x,y in p:
+                    if t == "p":
+                      # TODO clean up.. moving with g1 doesn't need G1_speed
+
+                      if needs_preamble:
+                        mt = fm
+                      else:
+                        mt = sm
+
+                      if x > 0 and x < bed_max_x and y > 0 and y < bed_max_y:  
+                        print "%s X%0.1f Y%0.1f %s" % (mt, scale_x*x, scale_y*y, G1_speed) 
+                      if needs_preamble:
+                        print shape_preamble
+                        needs_preamble=False
+
+                    elif t == "m":
+                        print shape_postamble
+                        needs_preamble=True
+                #print shape_postamble
 
     print postamble 
 

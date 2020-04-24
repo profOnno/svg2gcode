@@ -172,10 +172,20 @@ def point_generator(path, mat, flatness):
                 return
        
         simple_path = simplepath.parsePath(path)
+        #print ("*******")
+        #for p in simple_path:
+        #  print (p)
         startX,startY = float(simple_path[0][1][0]), float(simple_path[0][1][1])
-        yield startX, startY
+        yield "m", startX, startY
 
         p = cubicsuperpath.parsePath(path)
+        pa = cubicsuperpath.parsePath(path)
+
+        #print ("#####")
+        # splits in local moves
+        #for mp in pa:
+        #  print mp
+        #  print ("")
         
         if mat:
             simpletransform.applyTransformToPath(mat, p)
@@ -186,4 +196,5 @@ def point_generator(path, mat, flatness):
                     ctrl_pt1 = csp[0]
                     ctrl_pt2 = csp[1]
                     end_pt = csp[2]
-                    yield end_pt[0], end_pt[1],    
+                    yield "p", end_pt[0], end_pt[1],    
+                yield "m", 66, 66
