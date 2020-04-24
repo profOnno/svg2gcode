@@ -65,10 +65,12 @@ def generate_gcode():
                         mt = sm
 
                       if x > 0 and x < bed_max_x and y > 0 and y < bed_max_y:  
-                        print "%s X%0.1f Y%0.1f %s" % (mt, scale_x*x, scale_y*y, G1_speed) 
-                      if needs_preamble:
-                        print shape_preamble
-                        needs_preamble=False
+                        if needs_preamble:
+                          print "G0 X%0.1f Y%0.1f" % (scale_x*x, scale_y*y) 
+                          print shape_preamble
+                          needs_preamble=False
+                        else:
+                          print "G1 X%0.1f Y%0.1f %s" % (scale_x*x, scale_y*y, G1_speed) 
 
                     elif t == "m":
                         print shape_postamble
