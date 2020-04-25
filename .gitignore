@@ -1,0 +1,6 @@
+svg/
+__pycache__/
+*.pyc
+rebase.txt
+*.svg
+*.gcode
