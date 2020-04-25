@@ -1,8 +1,8 @@
 """G-code emitted at the start of processing the SVG file"""
-preamble = "G28\nG1 Z5.0"
+preamble = ";For pen drawing put your machine on the paper @x0y0z0\nG28\nG0 Z5.0"
 
 """G-code emitted at the end of processing the SVG file"""
-postamble = "G28"
+postamble = "G0 X0 Y0 Z5\n;done"
 
 """G-code emitted before processing a SVG shape"""
 #shape_preamble = "G4 P200"
@@ -11,13 +11,17 @@ shape_preamble = "G0 Z0"
 """G-code emitted after processing a SVG shape"""
 #shape_postamble = "G4 P200"
 shape_postamble = "G0 Z5"
-G1_speed = "F800"
+
+# draw speed seems to be nice @ 1000
+G1_speed = "F1000"
+
+# A4 area:               210mm x 297mm 
 
 """Print bed width in mm"""
 bed_max_x = 200
 
 """Print bed height in mm"""
-bed_max_y = 200
+bed_max_y = 280
 
 """ 
 Used to control the smoothness/sharpness of the curves.

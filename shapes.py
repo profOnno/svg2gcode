@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
+import sys
 import logging
 import traceback
 import xml.etree.ElementTree as ET
@@ -9,6 +11,8 @@ import cubicsuperpath
 import cspsubdiv
 from bezmisc import beziersplitatt
 
+def e_print(x):
+  print(x, file=sys.stderr)
 
 class svgshape(object):
     
@@ -174,7 +178,7 @@ def point_generator(path, mat, flatness):
         simple_path = simplepath.parsePath(path)
         #print ("*******")
         #for p in simple_path:
-        #  print (p)
+        #  e_print (p)
         startX,startY = float(simple_path[0][1][0]), float(simple_path[0][1][1])
         yield "m", startX, startY
 
