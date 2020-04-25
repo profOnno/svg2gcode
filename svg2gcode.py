@@ -86,7 +86,7 @@ def generate_gcode():
                     elif t == "m":
                         print (shape_postamble)
                         needs_preamble=True
-                #print (shape_postamble)
+                print (shape_postamble)
 
     print (postamble)
 
